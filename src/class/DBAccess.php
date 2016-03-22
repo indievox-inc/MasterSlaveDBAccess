@@ -31,6 +31,7 @@ class DBAccess
     protected static $instance_count = 0;
     public           $current_mode;
     public           $context_status;
+    protected        $db_config = array();
     protected        $db_name;
     protected        $db_connection;
 
@@ -49,7 +50,7 @@ class DBAccess
 
         if (!self::$db_obj || !isset(self::$db_obj) || empty(self::$db_obj)) {
 
-            self::$db_obj = new IndievoxDBAccess($db_config);
+            self::$db_obj = new DBAccess($db_config);
 
         }
 
@@ -61,24 +62,24 @@ class DBAccess
             && $this_db_obj->current_mode!='random'
         ) {
 
-            if (!empty($db_config["slave_database_name"])) {
+            if (!empty($this_db_obj->db_config["slave_database_name"])) {
 
-                $slave_database_count = count($db_config["slave_database_name"]);
-                $slave_index          = array_search(
-                                            $this_db_obj->current_mode,
-                                            $db_config["slave_database_name"]
-                                        );
-                $new_slave_index      = $slave_index+1;
+                $slave_database_count = count($this_db_obj->db_config["slave_database_name"]);
+                $slave_index = array_search(
+                    $this_db_obj->current_mode,
+                    $this_db_obj->db_config["slave_database_name"]
+                );
+                $new_slave_index = $slave_index+1;
 
                 if ($new_slave_index < $slave_database_count) {
 
-                    $options         = array('mode' => $db_config["slave_database_name"][$new_slave_index]);
-                    $slave_db_choose = $db_config["slave_database_name"][$new_slave_index];
+                    $options = array('mode' => $this_db_obj->db_config["slave_database_name"][$new_slave_index]);
+                    $slave_db_choose = $this_db_obj->db_config["slave_database_name"][$new_slave_index];
 
                 } else {
 
-                    $options         = array('mode' => $db_config["slave_database_name"][0]);
-                    $slave_db_choose = $db_config["slave_database_name"][0];
+                    $options = array('mode' => $this_db_obj->db_config["slave_database_name"][0]);
+                    $slave_db_choose = $this_db_obj->db_config["slave_database_name"][0];
 
                 }
 
@@ -116,11 +117,12 @@ class DBAccess
     private function __construct($db_config)
     {
 
+        $this->db_config            = $db_config;
         $this->context_status       = 'one_time';
         $this->db_name_poll         = array();
         $this->db_connection_poll   = array();
 
-        if (!empty($db_config["slave_database_name"])) {
+        if (!empty($this->db_config["slave_database_name"])) {
 
             $this->connectSlave(
                 array('mode'=>'random')
