@@ -53,8 +53,8 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        self::$db_config = NULL;
-        self::$no_slave_db_config = NULL;
+        self::$db_config = null;
+        self::$no_slave_db_config = null;
     }
 
     public function testGetInstance()

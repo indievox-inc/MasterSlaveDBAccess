@@ -399,7 +399,7 @@ class MasterSlaveDBAccess
 
         }// end foreach
 
-        self::$db_obj = NULL;
+        self::$db_obj = null;
         self::$instance_count = 0;
 
     }// end function __destruct
