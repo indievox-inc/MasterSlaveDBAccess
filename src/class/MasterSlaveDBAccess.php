@@ -116,7 +116,7 @@ class MasterSlaveDBAccess
     public static function destroyInstance()
     {
 
-        $class_property_array = get_object_vars($self::$db_obj);
+        $class_property_array = get_object_vars(self::$db_obj);
 
         foreach ($class_property_array as $property_key => $property_value) {
 
