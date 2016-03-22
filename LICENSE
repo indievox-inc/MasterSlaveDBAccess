@@ -1,11 +1,3 @@
-# DBAccess
-
-簡易的 MySQL database 伺服器存取類別，使用 POD 及 singleton pattern 實作，支援 Master-Slave 架構。
-
-Simple MySQL database server access class use PDO and singleton pattern, support Master-Slave database cluster.
-
-# License
-
 The MIT License (MIT)
 
 Copyright (c) 2015 fukuball
@@ -27,3 +19,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
