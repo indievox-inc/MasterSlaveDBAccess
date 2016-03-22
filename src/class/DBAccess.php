@@ -29,14 +29,13 @@ class DBAccess
 
     protected static $db_obj;
     protected static $instance_count = 0;
-    public           $current_mode;
-    public           $context_status;
-    protected        $db_config = array();
-    protected        $db_name;
-    protected        $db_connection;
-
-    protected        $db_name_poll = array();
-    protected        $db_connection_poll = array();
+    public $current_mode;
+    public $context_status;
+    protected $db_config = array();
+    protected $db_name;
+    protected $db_connection;
+    protected $db_name_poll = array();
+    protected $db_connection_poll = array();
 
     /**
      * Method getInstance to get db_obj
