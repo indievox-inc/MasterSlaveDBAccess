@@ -120,7 +120,7 @@ class MasterSlaveDBAccess
 
         foreach ($class_property_array as $property_key => $property_value) {
 
-            unset($this->$property_key);
+            unset(self::$db_obj->$property_key);
 
         }// end foreach
 
