@@ -56,9 +56,9 @@ class DBAccess
         $this_db_obj = self::$db_obj;
 
         // round robin switch slave connection
-        if (   $this_db_obj->context_status=='one_time'
-            && $this_db_obj->current_mode!='master'
-            && $this_db_obj->current_mode!='random'
+        if ($this_db_obj->context_status == 'one_time'
+         && $this_db_obj->current_mode != 'master'
+         && $this_db_obj->current_mode != 'random'
         ) {
 
             if (!empty($this_db_obj->db_config["slave_database_name"])) {
@@ -82,9 +82,9 @@ class DBAccess
 
                 }
 
-                if (   !$this_db_obj->db_connection_poll[$slave_db_choose]
-                    || !isset($this_db_obj->db_connection_poll[$slave_db_choose])
-                    || empty($this_db_obj->db_connection_poll[$slave_db_choose])
+                if (!$this_db_obj->db_connection_poll[$slave_db_choose]
+                 || !isset($this_db_obj->db_connection_poll[$slave_db_choose])
+                 || empty($this_db_obj->db_connection_poll[$slave_db_choose])
                 ) {
 
                     $this_db_obj->connectSlave($options);
@@ -166,5 +166,4 @@ class DBAccess
         self::$instance_count++;
 
     }// end function __construct
-
 }// end of class DBAccess
