@@ -1,4 +1,8 @@
-# MasterSlaveDBAccess
+# Master Slave DBAccess
+
+[![Build Status](https://travis-ci.org/indievox-inc/MasterSlaveDBAccess.svg?branch=master)](https://travis-ci.org/indievox-inc/MasterSlaveDBAccess)
+[![codecov.io](https://codecov.io/github/indievox-inc/MasterSlaveDBAccess/coverage.svg?branch=master)](https://codecov.io/github/indievox-inc/MasterSlaveDBAccess?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/a4789015127043baa6d5636af6964809)](https://www.codacy.com/app/hub/MasterSlaveDBAccess)
 
 簡易的 MySQL database 伺服器存取類別，使用 POD 及 singleton pattern 實作，支援 Master-Slave 架構。
 
