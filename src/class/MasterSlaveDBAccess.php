@@ -223,7 +223,9 @@ class MasterSlaveDBAccess
 
         } catch (PDOException $e) {
 
+            // @codeCoverageIgnoreStart
             throw new RuntimeException();
+            // @codeCoverageIgnoreEnd
 
         }
 
@@ -283,7 +285,9 @@ class MasterSlaveDBAccess
 
             } catch (PDOException $e) {
 
+                // @codeCoverageIgnoreStart
                 throw new RuntimeException();
+                // @codeCoverageIgnoreEnd
 
             }
 
