@@ -272,4 +272,77 @@ class MasterSlaveDBAccess
         }
 
     }// end function connectSlave
+
+    /**
+     * Method changeMode to change connection mode
+     *
+     * @param array $options['mode'] # input options
+     *
+     * @return void
+     */
+    public function changeMode($options = array())
+    {
+
+        $defaults = array('mode'=>'slave');
+
+        $options = array_merge($defaults, $options);
+
+        switch ($options['mode']) {
+
+            case 'master':
+
+                if (!isset($this->db_connection_poll['master'])
+                 || empty($this->db_connection_poll['master'])
+                ) {
+
+                    $this->connectMaster();
+
+                } else {
+
+                    // switch to master
+                    $this->current_mode  = 'master';
+                    $this->db_name       = $this->db_name_poll['master'];
+                    $this->db_connection = $this->db_connection_poll['master'];
+
+                }
+
+                break;
+
+            default:
+            case 'slave':
+
+                if (!empty($this->db_config["slave_database_name"])) {
+
+                    // connect slave
+                    $slave_db_choose
+                        = $this->db_config["slave_database_name"][array_rand($this->db_config["slave_database_name"])];
+
+                    if (!isset($this->db_connection_poll[$slave_db_choose])
+                     || empty($this->db_connection_poll[$slave_db_choose])
+                    ) {
+
+                        $options = array('mode'=>$slave_db_choose);
+                        $this->connectSlave($options);
+
+                    } else {
+
+                        // switch to slave
+                        $this->current_mode  = $slave_db_choose;
+                        $this->db_name       = $this->db_name_poll[$slave_db_choose];
+                        $this->db_connection = $this->db_connection_poll[$slave_db_choose];
+
+                    }
+
+                } else {
+
+                    $options = array('mode'=>'master');
+                    $this->changeMode($options);
+
+                }
+
+                break;
+
+        }
+
+    }// end function changeMode
 }// end of class MasterSlaveDBAccess
