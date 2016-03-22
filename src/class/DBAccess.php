@@ -14,6 +14,8 @@
 
 namespace iNDIEVOX\DBAccess;
 
+use \PDO;
+
 /**
  * DBAccess
  *
@@ -213,7 +215,7 @@ class DBAccess
      *
      * @return void
      */
-    public function connectSlave($options=array())
+    public function connectSlave($options = array())
     {
 
         $defaults = array('mode'=>'random');
@@ -224,13 +226,13 @@ class DBAccess
 
             // connect slave
             switch ($options['mode']) {
-            case 'random':
-                $slave_db_choose
-                    = $this->db_config["slave_database_name"][array_rand($this->db_config["slave_database_name"])];
+                case 'random':
+                    $slave_db_choose
+                        = $this->db_config["slave_database_name"][array_rand($this->db_config["slave_database_name"])];
                 break;
-            default:
-                $slave_db_choose
-                    = $options['mode'];
+                default:
+                    $slave_db_choose
+                        = $options['mode'];
                 break;
             }
 
