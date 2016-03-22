@@ -1,4 +1,4 @@
-# DBAccess
+# MasterSlaveDBAccess
 
 簡易的 MySQL database 伺服器存取類別，使用 POD 及 singleton pattern 實作，支援 Master-Slave 架構。
 

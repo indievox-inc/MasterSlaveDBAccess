@@ -1,6 +1,6 @@
 <?php
 /**
- * DBAccess.php
+ * MasterSlaveDBAccess.php
  *
  * PHP version 5
  *
@@ -8,25 +8,25 @@
  * @package  /src/class/
  * @author   Fukuball Lin <fukuball@indievox.com>
  * @license  MIT Licence
- * @version  GIT: <indievox-inc/DBAccess>
- * @link     https://github.com/indievox-inc/DBAccess
+ * @version  GIT: <indievox-inc/MasterSlaveDBAccess>
+ * @link     https://github.com/indievox-inc/MasterSlaveDBAccess
  */
 
-namespace iNDIEVOX\DBAccess;
+namespace iNDIEVOX\MasterSlaveDBAccess;
 
 use \PDO;
 
 /**
- * DBAccess
+ * MasterSlaveDBAccess
  *
  * @category PHP
  * @package  /src/class/
  * @author   Fukuball Lin <fukuball@indievox.com>
  * @license  MIT Licence
  * @version  Release: <0.0.1>
- * @link     https://github.com/indievox-inc/DBAccess
+ * @link     https://github.com/indievox-inc/MasterSlaveDBAccess
  */
-class DBAccess
+class MasterSlaveDBAccess
 {
 
     protected static $db_obj;
@@ -51,7 +51,7 @@ class DBAccess
 
         if (!self::$db_obj || !isset(self::$db_obj) || empty(self::$db_obj)) {
 
-            self::$db_obj = new DBAccess($db_config);
+            self::$db_obj = new MasterSlaveDBAccess($db_config);
 
         }
 
@@ -273,4 +273,4 @@ class DBAccess
         }
 
     }// end function connectSlave
-}// end of class DBAccess
+}// end of class MasterSlaveDBAccess

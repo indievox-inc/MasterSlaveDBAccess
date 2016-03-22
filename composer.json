@@ -1,8 +1,8 @@
 {
-    "name": "indievox-inc/DBAccess",
+    "name": "indievox-inc/MasterSlaveDBAccess",
     "type": "library",
     "description": "簡易的 MySQL database 伺服器存取類別，使用 POD 及 singleton pattern 實作，支援 Master-Slave 架構。 / Simple MySQL database server access class use PDO and singleton pattern, support Master-Slave database cluster.",
-    "keywords": ["DBAccess", "PHP", "MySQL", "POD", "Master-Slave"],
+    "keywords": ["MasterSlaveDBAccess", "PHP", "MySQL", "POD", "Master-Slave"],
     "license": "MIT",
     "version": "0.0.1",
     "authors": [
@@ -22,7 +22,7 @@
     },
     "autoload": {
         "files": [
-            "src/class/DBAccess.php"
+            "src/class/MasterSlaveDBAccess.php"
         ]
     }
 }

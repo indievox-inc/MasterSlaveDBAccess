@@ -17,7 +17,7 @@
     </php>
 
     <testsuites>
-        <testsuite name="DBAccess test suite">
+        <testsuite name="MasterSlaveDBAccess test suite">
             <directory>./test/</directory>
         </testsuite>
     </testsuites>

@@ -1,7 +1,7 @@
 <?php
-use iNDIEVOX\DBAccess\DBAccess;
+use iNDIEVOX\MasterSlaveDBAccess\MasterSlaveDBAccess;
 
-class DBAccessTest extends PHPUnit_Framework_TestCase
+class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
 {
 
     protected static $db_config;
@@ -43,7 +43,7 @@ class DBAccessTest extends PHPUnit_Framework_TestCase
 
     public function testGetInstance()
     {
-        $db_obj = DBAccess::getInstance(self::$db_config);
+        $db_obj = MasterSlaveDBAccess::getInstance(self::$db_config);
         $this->assertEquals($db_obj->context_status, 'one_time');
     }
 
