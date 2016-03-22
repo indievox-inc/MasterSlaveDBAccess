@@ -32,7 +32,6 @@
                 <directory>./test</directory>
                 <directory>./travis</directory>
                 <directory>./vendor</directory>
-                <file>./dbaccess-setup.php</file>
             </exclude>
         </whitelist>
     </filter>
