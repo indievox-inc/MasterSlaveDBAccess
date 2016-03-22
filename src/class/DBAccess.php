@@ -107,6 +107,36 @@ class DBAccess
     }// end function getInstance
 
     /**
+     * Method forceSwitchMaster
+     *
+     * @return void
+     */
+    public static function forceSwitchMaster()
+    {
+
+        // force read master
+        $db_change_mode_options = array('mode'=>'master');
+        self::$db_obj->changeMode($db_change_mode_options);
+        self::$db_obj->context_status = "one_time";
+
+    }// end function forceSwitchMaster
+
+    /**
+     * Method forceSwitchMaster
+     *
+     * @return void
+     */
+    public static function forceSwitchMasterWholeContext()
+    {
+
+        // force read master
+        $db_change_mode_options = array('mode'=>'master');
+        self::$db_obj->changeMode($db_change_mode_options);
+        self::$db_obj->context_status = "whole_context";
+
+    }// end function forceSwitchMaster
+
+    /**
      * Method __construct initialize instance
      *
      * @param array $db_config # database config
