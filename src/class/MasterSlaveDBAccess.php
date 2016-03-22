@@ -283,7 +283,7 @@ class MasterSlaveDBAccess
     public function changeMode($options = array())
     {
 
-        $defaults = array('mode'=>'slave');
+        $defaults = array('mode' => 'slave');
 
         $options = array_merge($defaults, $options);
 
@@ -321,7 +321,7 @@ class MasterSlaveDBAccess
                      || empty($this->db_connection_poll[$slave_db_choose])
                     ) {
 
-                        $options = array('mode'=>$slave_db_choose);
+                        $options = array('mode' => $slave_db_choose);
                         $this->connectSlave($options);
 
                     } else {
@@ -335,7 +335,7 @@ class MasterSlaveDBAccess
 
                 } else {
 
-                    $options = array('mode'=>'master');
+                    $options = array('mode' => 'master');
                     $this->changeMode($options);
 
                 }
@@ -345,4 +345,41 @@ class MasterSlaveDBAccess
         }
 
     }// end function changeMode
+
+    /**
+     * Method insertCommand to execute insert sql command
+     *
+     * @param string $insert_sql # the sql statement
+     * @param array  $param      # the param
+     *
+     * @return int $insert_id
+     */
+    public function insertCommand($insert_sql, $param)
+    {
+
+        $options = array('mode' => 'master');
+        $this->changeMode($options);
+
+        $this->db_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $statement = $this->db_connection->prepare($insert_sql);
+        $query_result = $statement->execute($param);
+
+        // @codeCoverageIgnoreStart
+        if (!$query_result) {
+
+            throw new RuntimeException();
+
+        }
+        // @codeCoverageIgnoreEnd
+
+        $insert_id = $this->db_connection->lastInsertId();
+
+        if ($this->context_status == 'one_time') {
+            $options = array('mode' => 'slave');
+            $this->changeMode($options);
+        }
+
+        return $insert_id;
+
+    }// end function insertCommand
 }// end of class MasterSlaveDBAccess
