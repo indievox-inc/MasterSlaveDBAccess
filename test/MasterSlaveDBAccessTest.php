@@ -63,6 +63,7 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
         $this->assertRegexp('/slave/', $db_obj->current_mode);
         $this->assertEquals('one_time', $db_obj->context_status);
         unset($db_obj);
+        MasterSlaveDBAccess::destroyInstance();
 
     }
 
