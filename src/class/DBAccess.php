@@ -229,11 +229,11 @@ class DBAccess
                 case 'random':
                     $slave_db_choose
                         = $this->db_config["slave_database_name"][array_rand($this->db_config["slave_database_name"])];
-                break;
+                    break;
                 default:
                     $slave_db_choose
                         = $options['mode'];
-                break;
+                    break;
             }
 
 
