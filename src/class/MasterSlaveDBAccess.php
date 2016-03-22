@@ -382,4 +382,25 @@ class MasterSlaveDBAccess
         return $insert_id;
 
     }// end function insertCommand
+
+    /**
+     * Method __destruct unset instance value
+     *
+     * @return void
+     */
+    public function __destruct()
+    {
+
+        $class_property_array = get_object_vars($this);
+
+        foreach ($class_property_array as $property_key => $property_value) {
+
+            unset($this->$property_key);
+
+        }// end foreach
+
+        self::$db_obj = NULL;
+        self::$instance_count = 0;
+
+    }// end function __destruct
 }// end of class MasterSlaveDBAccess
