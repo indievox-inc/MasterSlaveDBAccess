@@ -84,8 +84,7 @@ class MasterSlaveDBAccess
 
                 }
 
-                if (!$this_db_obj->db_connection_poll[$slave_db_choose]
-                 || !isset($this_db_obj->db_connection_poll[$slave_db_choose])
+                if (!isset($this_db_obj->db_connection_poll[$slave_db_choose])
                  || empty($this_db_obj->db_connection_poll[$slave_db_choose])
                 ) {
 
