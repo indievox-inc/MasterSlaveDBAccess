@@ -408,4 +408,38 @@ class MasterSlaveDBAccess
         return $insert_id;
 
     }// end function insertCommand
+
+    /**
+     * Method selectCommand to execute select sql command
+     *
+     * @param string $select_sql # the sql statement
+     * @param array  $param      # the param
+     *
+     * @return pdostat $query_result
+     */
+    public function selectCommand($select_sql, $param)
+    {
+
+        $this->db_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $statement = $this->db_connection->prepare($select_sql);
+        $query_result = $statement->execute($param);
+
+        // @codeCoverageIgnoreStart
+        if (!$query_result) {
+
+            throw new RuntimeException();
+
+        }
+        // @codeCoverageIgnoreEnd
+
+        $fetch_query_result = $statement->fetchAll();
+
+        if ($this->context_status=='one_time') {
+            $options = array('mode'=>'slave');
+            $this->changeMode($options);
+        }
+
+        return $fetch_query_result;
+
+    }// end function selectCommand
 }// end of class MasterSlaveDBAccess
