@@ -142,4 +142,17 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
 
     }
 
+    public function testForceSwitchMasterWholeContext()
+    {
+
+        $db_obj = MasterSlaveDBAccess::getInstance(self::$db_config);
+        $this->assertRegexp('/slave/', $db_obj->current_mode);
+        MasterSlaveDBAccess::forceSwitchMasterWholeContext();
+        $this->assertEquals('master', $db_obj->current_mode);
+        $this->assertEquals('whole_context', $db_obj->context_status);
+        unset($db_obj);
+        MasterSlaveDBAccess::destroyInstance();
+
+    }
+
 }
