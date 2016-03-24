@@ -119,4 +119,14 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
 
     }
 
+    public function testForceSwitchMaster()
+    {
+
+        $db_obj = MasterSlaveDBAccess::getInstance(self::$db_config);
+        $this->assertRegexp('/slave/', $db_obj->current_mode);
+        MasterSlaveDBAccess::forceSwitchMaster();
+        $this->assertEquals('master', $db_obj->current_mode);
+
+    }
+
 }
