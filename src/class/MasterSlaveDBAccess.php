@@ -442,4 +442,39 @@ class MasterSlaveDBAccess
         return $fetch_query_result;
 
     }// end function selectCommand
+
+    /**
+     * Method updateCommand to execute update sql command
+     *
+     * @param string $update_sql # the sql statement
+     * @param array  $param      # the param
+     *
+     * @return int $affected_rows
+     */
+    public function updateCommand($update_sql, $param)
+    {
+
+        $options = array('mode'=>'master');
+        $this->changeMode($options);
+
+        $this->db_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $statement = $this->db_connection->prepare($update_sql);
+        $query_result = $statement->execute($param);
+
+        // @codeCoverageIgnoreStart
+        if (!$query_result) {
+
+            throw new RuntimeException();
+
+        }
+        // @codeCoverageIgnoreEnd
+
+        if ($this->context_status=='one_time') {
+            $options = array('mode'=>'slave');
+            $this->changeMode($options);
+        }
+
+        return $statement->rowCount();
+
+    }// end function updateCommand
 }// end of class MasterSlaveDBAccess
