@@ -107,4 +107,19 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
 
     }
 
+    public function testConnectSlave()
+    {
+
+        $db_obj = MasterSlaveDBAccess::getInstance(self::$no_slave_db_config);
+        $db_obj->connectSlave();
+        $this->assertEquals('master', $db_obj->current_mode);
+        unset($db_obj);
+        MasterSlaveDBAccess::destroyInstance();
+
+        $db_obj = MasterSlaveDBAccess::getInstance(self::$db_config);
+        $db_obj->connectSlave();
+        $this->assertRegexp('/slave/', $db_obj->current_mode);
+
+    }
+
 }
