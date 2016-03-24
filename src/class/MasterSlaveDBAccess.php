@@ -477,4 +477,39 @@ class MasterSlaveDBAccess
         return $statement->rowCount();
 
     }// end function updateCommand
+
+    /**
+     * Method deleteCommand to execute delete sql command
+     *
+     * @param string $delete_sql # the sql statement
+     * @param array  $param      # the param
+     *
+     * @return int $affected_rows
+     */
+    public function deleteCommand($delete_sql, $param)
+    {
+
+        $options = array('mode'=>'master');
+        $this->changeMode($options);
+
+        $this->db_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $statement = $this->db_connection->prepare($delete_sql);
+        $query_result = $statement->execute($param);
+
+        // @codeCoverageIgnoreStart
+        if (!$query_result) {
+
+            throw new RuntimeException();
+
+        }
+        // @codeCoverageIgnoreEnd
+
+        if ($this->context_status=='one_time') {
+            $options = array('mode'=>'slave');
+            $this->changeMode($options);
+        }
+
+        return $statement->rowCount();
+
+    }// end function deleteCommand
 }// end of class MasterSlaveDBAccess
