@@ -49,6 +49,25 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
             "slave_database_name" => array()
         );
 
+        $create_user_table_sql = "CREATE TABLE IF NOT EXISTS `user` (".
+                            "`id` int(11) unsigned NOT NULL AUTO_INCREMENT,".
+                            "`path` char(30) NOT NULL,".
+                            "`is_deleted` tinyint(1) unsigned NOT NULL DEFAULT '0',".
+                            "`create_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',".
+                            "`modify_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',".
+                            "`delete_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',".
+                            "PRIMARY KEY (`id`)".
+                        ") ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
+
+        $db_obj = MasterSlaveDBAccess::getInstance(self::$db_config);
+        $param = array();
+        $query_instance = $db_obj->insertCommand(
+            $create_user_table_sql,
+            $param
+        );
+        unset($db_obj);
+        MasterSlaveDBAccess::destroyInstance();
+
     }
 
     public static function tearDownAfterClass()
@@ -150,6 +169,34 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
         MasterSlaveDBAccess::forceSwitchMasterWholeContext();
         $this->assertEquals('master', $db_obj->current_mode);
         $this->assertEquals('whole_context', $db_obj->context_status);
+        unset($db_obj);
+        MasterSlaveDBAccess::destroyInstance();
+
+    }
+
+    public function testInsertCommand()
+    {
+
+        $insert_user_sql = "INSERT INTO `user` ".
+            "(`id`, `path`, `is_deleted`, `create_time`, "."`modify_time`, `delete_time`) ".
+            "VALUES ".
+            "(:id, :path, :is_deleted, :create_time, :modify_time, :delete_time);";
+
+        $param = array(
+            ":id"           => '1',
+            ":path"         => 'fukuball',
+            ":is_deleted"   => '0',
+            ":create_time"  => '2016-12-30 00:00:00',
+            ":modify_time"  => '2016-12-30 16:12:18',
+            ":delete_time"  => '0000-00-00 00:00:00'
+        );
+
+        $db_obj = MasterSlaveDBAccess::getInstance(self::$db_config);
+        MasterSlaveDBAccess::forceSwitchMaster();
+        $insert_id = $db_obj->insertCommand(
+            $insert_user_sql, $param
+        );
+        $this->assertEquals('1', $insert_id);
         unset($db_obj);
         MasterSlaveDBAccess::destroyInstance();
 
