@@ -57,7 +57,7 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
         self::$no_slave_db_config = null;
     }
 
-    public static function setUp()
+    protected function setUp()
     {
 
         $create_user_table_sql = "CREATE TABLE IF NOT EXISTS `user` (".
@@ -81,7 +81,7 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public static function tearDown()
+    protected function tearDown()
     {
 
         $drop_user_table_sql = "DROP TABLE user";
