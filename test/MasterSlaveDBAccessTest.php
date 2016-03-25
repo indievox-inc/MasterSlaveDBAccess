@@ -49,6 +49,17 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
             "slave_database_name" => array()
         );
 
+    }
+
+    public static function tearDownAfterClass()
+    {
+        self::$db_config = null;
+        self::$no_slave_db_config = null;
+    }
+
+    public static function setUp()
+    {
+
         $create_user_table_sql = "CREATE TABLE IF NOT EXISTS `user` (".
                             "`id` int(11) unsigned NOT NULL AUTO_INCREMENT,".
                             "`path` char(30) NOT NULL,".
@@ -61,7 +72,7 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
 
         $db_obj = MasterSlaveDBAccess::getInstance(self::$db_config);
         $param = array();
-        $query_instance = $db_obj->insertCommand(
+        $db_obj->insertCommand(
             $create_user_table_sql,
             $param
         );
@@ -70,10 +81,21 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDown()
     {
-        self::$db_config = null;
-        self::$no_slave_db_config = null;
+
+        $drop_user_table_sql = "DROP TABLE user";
+
+        $db_obj = MasterSlaveDBAccess::getInstance(self::$db_config);
+        $param = array();
+        $db_obj->insertCommand(
+            $drop_user_table_sql,
+            $param
+        );
+        unset($db_obj);
+        MasterSlaveDBAccess::destroyInstance();
+
+
     }
 
     public function testGetInstance()
@@ -199,6 +221,43 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('1', $insert_id);
         unset($db_obj);
         MasterSlaveDBAccess::destroyInstance();
+
+    }
+
+    public function testSelectCommand()
+    {
+
+        $insert_user_sql = "INSERT INTO `user` ".
+            "(`id`, `path`, `is_deleted`, `create_time`, "."`modify_time`, `delete_time`) ".
+            "VALUES ".
+            "(:id, :path, :is_deleted, :create_time, :modify_time, :delete_time);";
+
+        $param = array(
+            ":id"           => '1',
+            ":path"         => 'fukuball',
+            ":is_deleted"   => '0',
+            ":create_time"  => '2016-12-30 00:00:00',
+            ":modify_time"  => '2016-12-30 16:12:18',
+            ":delete_time"  => '0000-00-00 00:00:00'
+        );
+
+        $db_obj = MasterSlaveDBAccess::getInstance(self::$db_config);
+        MasterSlaveDBAccess::forceSwitchMaster();
+        $insert_id = $db_obj->insertCommand(
+            $insert_user_sql, $param
+        );
+        $this->assertEquals('1', $insert_id);
+
+        $select_user_sql = "SELECT * FROM user WHERE `id`=:id ";
+
+        $param = array(
+            ":id" => '1'
+        );
+
+        $db_obj = MasterSlaveDBAccess::getInstance(self::$db_config);
+        FukuPHPDBAccess::forceSwitchMaster();
+        $query_result = $db_obj->selectCommand($select_user_sql, $param);
+        $this->assertEquals('1', $query_result[0]["id"]);
 
     }
 
