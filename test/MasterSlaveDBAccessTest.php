@@ -254,10 +254,11 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
             ":id" => '1'
         );
 
-        $db_obj = MasterSlaveDBAccess::getInstance(self::$db_config);
-        FukuPHPDBAccess::forceSwitchMaster();
+        MasterSlaveDBAccess::forceSwitchMaster();
         $query_result = $db_obj->selectCommand($select_user_sql, $param);
         $this->assertEquals('1', $query_result[0]["id"]);
+        unset($db_obj);
+        MasterSlaveDBAccess::destroyInstance();
 
     }
 
