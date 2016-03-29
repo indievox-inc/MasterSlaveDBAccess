@@ -8,6 +8,14 @@
 
 Simple MySQL database server access class use PDO and singleton pattern, support Master-Slave database cluster.
 
+# Usage
+
+## Install by Composer
+
+```php
+composer require indievox/master-slave-db-access:dev-master
+```
+
 # License
 
 The MIT License (MIT)
