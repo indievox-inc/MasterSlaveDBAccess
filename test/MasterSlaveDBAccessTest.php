@@ -60,14 +60,14 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
 
-        $create_user_table_sql = "CREATE TABLE IF NOT EXISTS `user` (".
-                            "`id` int(11) unsigned NOT NULL AUTO_INCREMENT,".
-                            "`path` char(30) NOT NULL,".
-                            "`is_deleted` tinyint(1) unsigned NOT NULL DEFAULT '0',".
-                            "`create_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',".
-                            "`modify_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',".
-                            "`delete_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',".
-                            "PRIMARY KEY (`id`)".
+        $create_user_table_sql = "CREATE TABLE IF NOT EXISTS user (".
+                            "id int(11) unsigned NOT NULL AUTO_INCREMENT,".
+                            "path char(30) NOT NULL,".
+                            "is_deleted tinyint(1) unsigned NOT NULL DEFAULT '0',".
+                            "create_time datetime NOT NULL DEFAULT '0000-00-00 00:00:00',".
+                            "modify_time datetime NOT NULL DEFAULT '0000-00-00 00:00:00',".
+                            "delete_time datetime NOT NULL DEFAULT '0000-00-00 00:00:00',".
+                            "PRIMARY KEY (id)".
                         ") ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 
         $db_obj = MasterSlaveDBAccess::getInstance(self::$db_config);
@@ -199,8 +199,8 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
     public function testInsertCommand()
     {
 
-        $insert_sql = "INSERT INTO `user` ".
-            "(`id`, `path`, `is_deleted`, `create_time`, "."`modify_time`, `delete_time`) ".
+        $insert_sql = "INSERT INTO user ".
+            "(id, path, is_deleted, create_time, modify_time, delete_time) ".
             "VALUES ".
             "(:id, :path, :is_deleted, :create_time, :modify_time, :delete_time);";
 
@@ -224,8 +224,8 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
     public function testSelectCommand()
     {
 
-        $insert_sql = "INSERT INTO `user` ".
-            "(`id`, `path`, `is_deleted`, `create_time`, "."`modify_time`, `delete_time`) ".
+        $insert_sql = "INSERT INTO user ".
+            "(id, path, is_deleted, create_time, modify_time, delete_time) ".
             "VALUES ".
             "(:id, :path, :is_deleted, :create_time, :modify_time, :delete_time);";
 
@@ -242,7 +242,7 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
         $insert_id = $db_obj->insertCommand($insert_sql, $param);
         $this->assertEquals('1', $insert_id);
 
-        $select_sql = "SELECT * FROM user WHERE `id`=:id ";
+        $select_sql = "SELECT * FROM user WHERE id=:id ";
 
         $param = array(
             ":id" => '1'
@@ -259,8 +259,8 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
     public function testUpdateCommand()
     {
 
-        $insert_sql = "INSERT INTO `user` ".
-            "(`id`, `path`, `is_deleted`, `create_time`, "."`modify_time`, `delete_time`) ".
+        $insert_sql = "INSERT INTO user ".
+            "(id, path, is_deleted, create_time, modify_time, delete_time) ".
             "VALUES ".
             "(:id, :path, :is_deleted, :create_time, :modify_time, :delete_time);";
 
@@ -277,7 +277,7 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
         $insert_id = $db_obj->insertCommand($insert_sql, $param);
         $this->assertEquals('1', $insert_id);
 
-        $update_sql = "UPDATE `user` SET `path`='fukuball-lin' WHERE `id`=:id ";
+        $update_sql = "UPDATE user SET path='fukuball-lin' WHERE id=:id ";
 
         $param = array(
             ":id" => '1'
@@ -286,7 +286,7 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
         $affected_rows = $db_obj->updateCommand($update_sql, $param);
         $this->assertEquals(1, $affected_rows);
 
-        $select_sql = "SELECT * FROM user WHERE `id`=:id ";
+        $select_sql = "SELECT * FROM user WHERE id=:id ";
 
         $param = array(
             ":id" => '1'
@@ -303,8 +303,8 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
     public function testDeleteCommand()
     {
 
-        $insert_sql = "INSERT INTO `user` ".
-            "(`id`, `path`, `is_deleted`, `create_time`, "."`modify_time`, `delete_time`) ".
+        $insert_sql = "INSERT INTO user ".
+            "(id, path, is_deleted, create_time, modify_time, delete_time) ".
             "VALUES ".
             "(:id, :path, :is_deleted, :create_time, :modify_time, :delete_time);";
 
@@ -321,7 +321,7 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
         $insert_id = $db_obj->insertCommand($insert_sql, $param);
         $this->assertEquals('1', $insert_id);
 
-        $select_sql = "SELECT * FROM user WHERE `id`=:id ";
+        $select_sql = "SELECT * FROM user WHERE id=:id ";
 
         $param = array(
             ":id" => '1'
@@ -331,7 +331,7 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
         $query_result = $db_obj->selectCommand($select_sql, $param);
         $this->assertEquals('1', $query_result[0]["id"]);
 
-        $delete_sql = "DELETE `user` WHERE `id`=:id ";
+        $delete_sql = "DELETE FROM user WHERE id=:id ";
 
         $param = array(
             ":id" => '1'
@@ -340,7 +340,7 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
         $affected_rows = $db_obj->deleteCommand($delete_sql, $param);
         $this->assertEquals(1, $affected_rows);
 
-        $select_sql = "SELECT * FROM user WHERE `id`=:id ";
+        $select_sql = "SELECT * FROM user WHERE id=:id ";
 
         $param = array(
             ":id" => '1'
