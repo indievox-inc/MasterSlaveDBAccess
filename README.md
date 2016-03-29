@@ -1,5 +1,6 @@
 # Master Slave DBAccess
 
+[![Latest Stable Version](https://poser.pugx.org/indievox/master-slave-db-access/v/stable.png)](https://packagist.org/packages/indievox/master-slave-db-access)
 [![Build Status](https://travis-ci.org/indievox-inc/MasterSlaveDBAccess.svg?branch=master)](https://travis-ci.org/indievox-inc/MasterSlaveDBAccess)
 [![codecov.io](https://codecov.io/github/indievox-inc/MasterSlaveDBAccess/coverage.svg?branch=master)](https://codecov.io/github/indievox-inc/MasterSlaveDBAccess?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/a4789015127043baa6d5636af6964809)](https://www.codacy.com/app/hub/MasterSlaveDBAccess)
@@ -10,10 +11,94 @@ Simple MySQL database server access class use PDO and singleton pattern, support
 
 # Usage
 
-## Install by Composer
+## Install by composer
 
 ```php
 composer require indievox/master-slave-db-access:dev-master
+```
+
+## Include auto load
+
+```php
+require_once "/path/to/your/vendor/autoload.php";
+```
+
+## Config your database connections
+
+Here's the example of database connection config
+
+```php
+
+$db_config = array(
+    "database_server" => array(
+        "master"=>array(
+            "db_host"=>'localhost',
+            "db_name"=>'homestead',
+            "db_user"=>'root',
+            "db_password"=>''
+        ),
+        "slave1"=>array(
+            "db_host"=>'localhost',
+            "db_name"=>'homestead',
+            "db_user"=>'root',
+            "db_password"=>''
+        ),
+        "slave2"=>array(
+            "db_host"=>'localhost',
+            "db_name"=>'homestead',
+            "db_user"=>'root',
+            "db_password"=>'',
+        )
+    ),
+    "slave_database_name" => array(
+        'slave1',
+        'slave2'
+    )
+);
+
+```
+
+## Get database access instance
+
+```php
+
+$db_obj = MasterSlaveDBAccess::getInstance($db_config);
+
+```
+
+## Use database access instance to excute query
+
+```php
+
+$select_sql = "SELECT id, email FROM user WHERE id=:id ";
+$param = array(
+    ":id" => '1'
+);
+$query_result = $db_obj->selectCommand($select_sql, $param);
+
+foreach ($query_result as $query_result_data) {
+    echo $query_result_data["id"];
+    echo $query_result_data["email"];
+}
+
+```
+
+## Force read master database when you need
+
+```php
+
+MasterSlaveDBAccess::forceSwitchMaster();
+$select_sql = "SELECT id, email FROM user WHERE id=:id ";
+$param = array(
+    ":id" => '1'
+);
+$query_result = $db_obj->selectCommand($select_sql, $param);
+
+foreach ($query_result as $query_result_data) {
+    echo $query_result_data["id"];
+    echo $query_result_data["email"];
+}
+
 ```
 
 # License
