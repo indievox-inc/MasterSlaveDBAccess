@@ -214,7 +214,6 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
         );
 
         $db_obj = MasterSlaveDBAccess::getInstance(self::$db_config);
-        MasterSlaveDBAccess::forceSwitchMaster();
         $insert_id = $db_obj->insertCommand($insert_sql, $param);
         $this->assertEquals('1', $insert_id);
         unset($db_obj);
@@ -240,7 +239,6 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
         );
 
         $db_obj = MasterSlaveDBAccess::getInstance(self::$db_config);
-        MasterSlaveDBAccess::forceSwitchMaster();
         $insert_id = $db_obj->insertCommand($insert_sql, $param);
         $this->assertEquals('1', $insert_id);
 
@@ -276,7 +274,6 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
         );
 
         $db_obj = MasterSlaveDBAccess::getInstance(self::$db_config);
-        MasterSlaveDBAccess::forceSwitchMaster();
         $insert_id = $db_obj->insertCommand($insert_sql, $param);
         $this->assertEquals('1', $insert_id);
 
@@ -286,7 +283,6 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
             ":id" => '1'
         );
 
-        MasterSlaveDBAccess::forceSwitchMaster();
         $affected_rows = $db_obj->updateCommand($update_sql, $param);
         $this->assertEquals(1, $affected_rows);
 
@@ -322,7 +318,6 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
         );
 
         $db_obj = MasterSlaveDBAccess::getInstance(self::$db_config);
-        MasterSlaveDBAccess::forceSwitchMaster();
         $insert_id = $db_obj->insertCommand($insert_sql, $param);
         $this->assertEquals('1', $insert_id);
 
@@ -342,7 +337,6 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
             ":id" => '1'
         );
 
-        MasterSlaveDBAccess::forceSwitchMaster();
         $affected_rows = $db_obj->deleteCommand($delete_sql, $param);
         $this->assertEquals(1, $affected_rows);
 
