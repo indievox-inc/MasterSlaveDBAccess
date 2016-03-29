@@ -1,6 +1,6 @@
 # Master Slave DBAccess
 
-[![Latest Stable Version](https://poser.pugx.org/indievox/master-slave-db-access/v/stable.png)](https://packagist.org/packages/indievox/master-slave-db-access)
+[![Latest Stable Version](https://poser.pugx.org/indievox/master-slave-db-access/v/stable)](https://packagist.org/packages/indievox/master-slave-db-access)
 [![Build Status](https://travis-ci.org/indievox-inc/MasterSlaveDBAccess.svg?branch=master)](https://travis-ci.org/indievox-inc/MasterSlaveDBAccess)
 [![codecov.io](https://codecov.io/github/indievox-inc/MasterSlaveDBAccess/coverage.svg?branch=master)](https://codecov.io/github/indievox-inc/MasterSlaveDBAccess?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/a4789015127043baa6d5636af6964809)](https://www.codacy.com/app/hub/MasterSlaveDBAccess)
@@ -21,6 +21,7 @@ composer require indievox/master-slave-db-access:dev-master
 
 ```php
 require_once "/path/to/your/vendor/autoload.php";
+use iNDIEVOX\MasterSlaveDBAccess\MasterSlaveDBAccess;
 ```
 
 ## Config your database connections
