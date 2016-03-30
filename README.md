@@ -89,10 +89,28 @@ foreach ($query_result as $query_result_data) {
 ```php
 
 MasterSlaveDBAccess::forceSwitchMaster();
+
 $select_sql = "SELECT id, email FROM user WHERE id=:id ";
+
 $param = array(
     ":id" => '1'
 );
+
+// select query, but use master only this time
+$query_result = $db_obj->selectCommand($select_sql, $param);
+
+foreach ($query_result as $query_result_data) {
+    echo $query_result_data["id"];
+    echo $query_result_data["email"];
+}
+
+$select_sql = "SELECT id, email FROM user WHERE id=:id ";
+
+$param = array(
+    ":id" => '1'
+);
+
+// select query, auto switch to slave(read)
 $query_result = $db_obj->selectCommand($select_sql, $param);
 
 foreach ($query_result as $query_result_data) {
