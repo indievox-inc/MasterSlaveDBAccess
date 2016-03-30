@@ -72,7 +72,7 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
 
         $db_obj = MasterSlaveDBAccess::getInstance(self::$db_config);
         $param = array();
-        $db_obj->insertCommand(
+        $db_obj->createCommand(
             $create_user_table_sql,
             $param
         );
@@ -88,7 +88,7 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
 
         $db_obj = MasterSlaveDBAccess::getInstance(self::$db_config);
         $param = array();
-        $db_obj->insertCommand(
+        $db_obj->dropCommand(
             $drop_user_table_sql,
             $param
         );

@@ -373,6 +373,66 @@ class MasterSlaveDBAccess
     }// end function changeMode
 
     /**
+     * Method createCommand to execute create sql command
+     *
+     * @param string $create_sql # the sql statement
+     * @param array  $param      # the param
+     *
+     * @return pdostat $query_result
+     */
+    public function createCommand($insert_sql, $param)
+    {
+
+        $options = array('mode' => 'master');
+        $this->changeMode($options);
+
+        $this->db_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $statement = $this->db_connection->prepare($insert_sql);
+        $query_result = $statement->execute($param);
+
+        // @codeCoverageIgnoreStart
+        if (!$query_result) {
+
+            throw new RuntimeException();
+
+        }
+        // @codeCoverageIgnoreEnd
+
+        return $query_result;
+
+    }// end function createCommand
+
+    /**
+     * Method dropCommand to execute drop sql command
+     *
+     * @param string $create_sql # the sql statement
+     * @param array  $param      # the param
+     *
+     * @return pdostat $query_result
+     */
+    public function dropCommand($insert_sql, $param)
+    {
+
+        $options = array('mode' => 'master');
+        $this->changeMode($options);
+
+        $this->db_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $statement = $this->db_connection->prepare($insert_sql);
+        $query_result = $statement->execute($param);
+
+        // @codeCoverageIgnoreStart
+        if (!$query_result) {
+
+            throw new RuntimeException();
+
+        }
+        // @codeCoverageIgnoreEnd
+
+        return $query_result;
+
+    }// end function dropCommand
+
+    /**
      * Method insertCommand to execute insert sql command
      *
      * @param string $insert_sql # the sql statement
