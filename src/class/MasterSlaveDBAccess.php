@@ -398,6 +398,11 @@ class MasterSlaveDBAccess
         }
         // @codeCoverageIgnoreEnd
 
+        if ($this->context_status == 'one_time') {
+            $options = array('mode' => 'slave');
+            $this->changeMode($options);
+        }
+
         return $query_result;
 
     }// end function createCommand
@@ -427,6 +432,11 @@ class MasterSlaveDBAccess
 
         }
         // @codeCoverageIgnoreEnd
+
+        if ($this->context_status == 'one_time') {
+            $options = array('mode' => 'slave');
+            $this->changeMode($options);
+        }
 
         return $query_result;
 
