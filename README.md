@@ -33,22 +33,22 @@ Here's the example of database connection config
 $db_config = array(
     "database_server" => array(
         "master"=>array(
-            "db_host"=>'localhost',
-            "db_name"=>'homestead',
-            "db_user"=>'root',
-            "db_password"=>''
+            "db_host"=>'localhost', // change to your master host
+            "db_name"=>'homestead', // change to your master database name
+            "db_user"=>'root',      // change to your master database username
+            "db_password"=>''       // change to your master database password
         ),
         "slave1"=>array(
-            "db_host"=>'localhost',
-            "db_name"=>'homestead',
-            "db_user"=>'root',
-            "db_password"=>''
+            "db_host"=>'localhost', // change to your slave host
+            "db_name"=>'homestead', // change to your slave database name
+            "db_user"=>'root',      // change to your slave database username
+            "db_password"=>''       // change to your slave database password
         ),
         "slave2"=>array(
-            "db_host"=>'localhost',
-            "db_name"=>'homestead',
-            "db_user"=>'root',
-            "db_password"=>'',
+            "db_host"=>'localhost', // change to your slave host
+            "db_name"=>'homestead', // change to your slave database name
+            "db_user"=>'root',      // change to your slave database username
+            "db_password"=>''       // change to your slave database password
         )
     ),
     "slave_database_name" => array(
@@ -105,6 +105,7 @@ foreach ($query_result as $query_result_data) {
 ## Use "right" method to excute query, the class will auto switch to right read/write connection to process the query
 
 ```php
+use iNDIEVOX\MasterSlaveDBAccess\MasterSlaveDBAccess;
 
 // init conneciton, use slave(read) connection
 $db_obj = MasterSlaveDBAccess::getInstance($db_config);
