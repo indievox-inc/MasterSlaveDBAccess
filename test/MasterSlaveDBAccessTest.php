@@ -29,11 +29,25 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
                     "db_name"=>'homestead',
                     "db_user"=>'root',
                     "db_password"=>'',
+                ),
+                "slave3"=>array(
+                    "db_host"=>'localhost',
+                    "db_name"=>'homestead',
+                    "db_user"=>'root',
+                    "db_password"=>'',
+                ),
+                "slave4"=>array(
+                    "db_host"=>'localhost',
+                    "db_name"=>'homestead',
+                    "db_user"=>'root',
+                    "db_password"=>'',
                 )
             ),
             "slave_database_name" => array(
                 'slave1',
-                'slave2'
+                'slave2',
+                'slave3',
+                'slave4'
             )
         );
 
@@ -150,6 +164,13 @@ class MasterSlaveDBAccessTest extends PHPUnit_Framework_TestCase
 
     public function testChangeMode()
     {
+
+        $db_obj = MasterSlaveDBAccess::getInstance(self::$no_slave_db_config);
+        $this->assertEquals('master', $db_obj->current_mode);
+        $db_obj->changeMode(array('mode'=>'slave'));
+        $this->assertEquals('master', $db_obj->current_mode);
+        unset($db_obj);
+        MasterSlaveDBAccess::destroyInstance();
 
         $db_obj = MasterSlaveDBAccess::getInstance(self::$db_config);
         $this->assertRegexp('/slave/', $db_obj->current_mode);
