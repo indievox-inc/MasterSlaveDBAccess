@@ -188,6 +188,53 @@ $affected_rows = $db_obj->deleteCommand($delete_sql, $param);
 
 ```
 
+## Sometimes you want to use master server in the whole context
+
+```php
+
+// init conneciton, use slave(read) connection
+$db_obj = MasterSlaveDBAccess::getInstance($db_config);
+
+// switch to master
+MasterSlaveDBAccess::forceSwitchMasterWholeContext();
+
+$select_sql = "SELECT * FROM user WHERE id=:id ";
+
+$param = array(
+    ":id" => '1'
+);
+
+// select query, but use master
+$query_result = $db_obj->selectCommand($select_sql, $param);
+
+$insert_sql = "INSERT INTO user ".
+    "(id, path, is_deleted, create_time, modify_time, delete_time) ".
+    "VALUES ".
+    "(:id, :path, :is_deleted, :create_time, :modify_time, :delete_time);";
+
+$param = array(
+    ":id"           => '2',
+    ":path"         => 'punkball',
+    ":is_deleted"   => '0',
+    ":create_time"  => '2016-12-31 00:00:00',
+    ":modify_time"  => '2016-12-31 16:12:18',
+    ":delete_time"  => '0000-00-00 00:00:00'
+);
+
+// insert query, use master
+$insert_id = $db_obj->insertCommand($insert_sql, $param);
+
+$select_sql = "SELECT * FROM user WHERE id=:id ";
+
+$param = array(
+    ":id" => '2'
+);
+
+// select query, but use master
+$query_result = $db_obj->selectCommand($select_sql, $param);
+
+```
+
 # License
 
 The MIT License (MIT)
