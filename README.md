@@ -102,6 +102,64 @@ foreach ($query_result as $query_result_data) {
 
 ```
 
+## Use "right" method to excute query, the class will auto switch to right read/write connection to process the query
+
+```php
+
+// init conneciton, use slave(read) connection
+$db_obj = MasterSlaveDBAccess::getInstance($db_config);
+
+$insert_sql = "INSERT INTO user ".
+    "(id, path, is_deleted, create_time, modify_time, delete_time) ".
+    "VALUES ".
+    "(:id, :path, :is_deleted, :create_time, :modify_time, :delete_time);";
+
+$param = array(
+    ":id"           => '1',
+    ":path"         => 'fukuball',
+    ":is_deleted"   => '0',
+    ":create_time"  => '2016-12-30 00:00:00',
+    ":modify_time"  => '2016-12-30 16:12:18',
+    ":delete_time"  => '0000-00-00 00:00:00'
+);
+
+// insert query, auto switch to master(write)
+$insert_id = $db_obj->insertCommand($insert_sql, $param);
+
+$select_sql = "SELECT * FROM user WHERE id=:id ";
+
+$param = array(
+    ":id" => '1'
+);
+
+// select query, auto switch to slave(read)
+$query_result = $db_obj->selectCommand($select_sql, $param);
+
+foreach ($query_result as $query_result_data) {
+    echo $query_result_data["id"];
+    echo $query_result_data["email"];
+}
+
+$update_sql = "UPDATE user SET path='fukuball-lin' WHERE id=:id ";
+
+$param = array(
+    ":id" => '1'
+);
+
+// update query, auto switch to master(write)
+$affected_rows = $db_obj->updateCommand($update_sql, $param);
+
+$delete_sql = "DELETE FROM user WHERE id=:id ";
+
+$param = array(
+    ":id" => '1'
+);
+
+// delete query, auto switch to master(write)
+$affected_rows = $db_obj->deleteCommand($delete_sql, $param);
+
+```
+
 # License
 
 The MIT License (MIT)
